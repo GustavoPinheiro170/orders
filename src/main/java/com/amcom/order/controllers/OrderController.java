@@ -5,8 +5,8 @@ import com.amcom.order.entitys.Product;
 import com.amcom.order.models.OrderTotalResponse;
 import com.amcom.order.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class OrderController {
 
     // Recebe o pedido de um sistema externo A
     @PostMapping("/receive-from-external-A")
-    public String receiveOrderFromExternalA(@RequestBody List<Product> products) {
+    public String receiveOrderFromExternalA(@RequestBody List<Product> products)  throws Exception{
         OrderTable order = new OrderTable();
         products.forEach(order::addProduct);
         return orderService.receiveOrderFromExternalSystemA(order);
@@ -35,13 +35,13 @@ public class OrderController {
 
     // Adiciona um produto ao pedido
     @PostMapping("/add-product")
-    public void addProductToOrder(@RequestBody Product product) {
-        orderService.addProductToOrder(product);
+    public ResponseEntity<HttpStatus> addProductToOrder(@RequestBody Product product) throws Exception {
+       return  orderService.addProductToOrder(product);
     }
 
     // Calcula o total do pedido
     @GetMapping("/total")
-    public ResponseEntity<OrderTotalResponse> calculateOrderTotal() {
+    public ResponseEntity<OrderTotalResponse> calculateOrderTotal() throws Exception {
         return orderService.calculateOrderTotal();
     }
 

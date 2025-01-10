@@ -17,7 +17,7 @@ public class OrderTable {
 
     private Double total;
     @OneToMany
-    private List<Product> products = new ArrayList<>(); ;
+    private List<Product> products = new ArrayList<>() ;
 
     public void addProduct(Product product) {
         this.products.add(product);
